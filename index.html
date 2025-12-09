@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma Semanal para Anarchy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #008000, #0000ff, #ff0000, #ffa500); /* Gradiente inspirado en colores de las Tortugas Ninja: verde, azul, rojo, naranja */
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            font-size: 2.5em;
+        }
+        h1 i {
+            color: #ff0000; /* Rojo para el ícono */
+        }
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        th {
+            background: rgba(0,0,0,0.3);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        th i {
+            margin-right: 10px;
+        }
+        button {
+            background: linear-gradient(45deg, #008000, #0000ff); /* Verde y azul para botones */
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            font-size: 0.9em;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .event {
+            margin-bottom: 10px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            border-left: 5px solid #ffa500; /* Naranja para borde izquierdo */
+            animation: slideIn 0.5s ease-out;
+            color: #fff;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .event strong {
+            color: #ff0000; /* Rojo para el tiempo */
+        }
+        .people-list {
+            font-size: 0.9em;
+            color: #ccc;
+        }
+        .people-list i {
+            margin-right: 5px;
+        }
+        .clear-btn {
+            display: block;
+            margin: 30px auto;
+            background: linear-gradient(45deg, #ff0000, #ffa500); /* Rojo y naranja */
+            font-size: 1.1em;
+            padding: 12px 20px;
+        }
+        .clear-btn:hover {
+            background: linear-gradient(45deg, #ffa500, #008000); /* Naranja y verde */
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            table { font-size: 0.9em; }
+            button { padding: 8px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <h1><i class="fas fa-skull"></i> Cronograma Semanal para Anarchy</h1>
+    <p>¡Libera el caos! Agrega eventos por día con hora, descripción y personas asignadas. <i class="fas fa-fire"></i></p>
+    
+    <table id="schedule">
+        <thead>
+            <tr>
+                <th><i class="fas fa-calendar-day"></i> Día</th>
+                <th><i class="fas fa-list"></i> Eventos</th>
+                <th><i class="fas fa-users"></i> Encargados</th>
+                <th><i class="fas fa-cogs"></i> Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-day="Lunes">
+                <td><i class="fas fa-fire"></i> Lunes</td>
+                <td id="events-Lunes"></td>
+                <td id="people-Lunes" class="people-list"></td>
+                <td><button onclick="addEvent('Lunes')"><i class="fas fa-plus"></i> Agregar Evento</button></td>
+            </tr>
+            <tr data-day="Martes">
+                <td><i class="fas fa-bolt"></i> Martes</td>
+                <td id="events-Martes"></td>
+                <td id="people-Martes" class="people-list"></td>
+                <td><button onclick="addEvent('Martes')"><i class="fas fa-plus"></i> Agregar Evento</button></td>
+            </tr>
+            <tr data-day="Miércoles">
+                <td><i class="fas fa-exclamation-triangle"></i> Miércoles</td>
+                <td id="events-Miércoles"></td>
+                <td id="people-Miércoles" class="people-list"></td>
+                <td><button onclick="addEvent('Miércoles')"><i class="fas fa-plus"></i> Agregar Evento</button></td>
+            </tr>
+            <tr data-day="Jueves">
+                <td><i class="fas fa-skull-crossbones"></i> Jueves</td>
+                <td id="events-Jueves"></td>
+                <td id="people-Jueves" class="people-list"></td>
+                <td><button onclick="addEvent('Jueves')"><i class="fas fa-plus"></i> Agregar Evento</button></td>
+            </tr>
+            <tr data-day="Viernes">
+                <td><i class="fas fa-music"></i> Viernes</td>
+                <td id="events-Viernes"></td>
+                <td id="people-Viernes" class="people-list"></td>
+                <td><button onclick="addEvent('Viernes')"><i class="fas fa-plus"></i> Agregar Evento</button></td>
+            </tr>
+            <tr data-day="Sábado">
+                <td><i class="fas fa-gamepad"></i> Sábado</td>
+                <td id="events-Sábado"></td>
+                <td id="people-Sábado" class="people-list"></td>
+                <td><button onclick="addEvent('Sábado')"><i class="fas fa-plus"></i> Agregar Evento</button></td>
+            </tr>
+            <tr data-day="Domingo">
+                <td><i class="fas fa-coffee"></i> Domingo</td>
+                <td id="events-Domingo"></td>
+                <td id="people-Domingo" class="people-list"></td>
+                <td><button onclick="addEvent('Domingo')"><i class="fas fa-plus"></i> Agregar Evento</button></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <button class="clear-btn" onclick="clearAll()"><i class="fas fa-trash"></i> Limpiar Todo</button>
+
+    <script>
+        // Cargar eventos desde localStorage al iniciar
+        window.onload = function() {
+            for (let day of ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']) {
+                loadEvents(day);
+            }
+        };
+
+        function addEvent(day) {
+            const time = prompt('Hora del evento (ej: 14:00):');
+            const desc = prompt('Descripción del evento:');
+            const people = prompt('Personas asignadas (separadas por comas, ej: @usuario1, @usuario2):');
+            if (time && desc) {
+                const events = JSON.parse(localStorage.getItem(day) || '[]');
+                events.push({ time, desc, people: people || '' });
+                localStorage.setItem(day, JSON.stringify(events));
+                loadEvents(day);
+            }
+        }
+
+        function loadEvents(day) {
+            const events = JSON.parse(localStorage.getItem(day) || '[]');
+            const container = document.getElementById(`events-${day}`);
+            const peopleContainer = document.getElementById(`people-${day}`);
+            container.innerHTML = '';
+            let allPeople = [];
+            events.forEach((event, index) => {
+                const div = document.createElement('div');
+                div.className = 'event';
+                div.innerHTML = `
+                    <strong><i class="fas fa-clock"></i> ${event.time}:</strong> ${event.desc}
+                    <button onclick="editEvent('${day}', ${index})"><i class="fas fa-edit"></i> Editar</button>
+                    <button onclick="removeEvent('${day}', ${index})"><i class="fas fa-times"></i> Eliminar</button>
+                `;
+                container.appendChild(div);
+                if (event.people) {
+                    allPeople = allPeople.concat(event.people.split(',').map(p => p.trim()));
+                }
+            });
+            // Mostrar personas únicas en la columna separada
+            const uniquePeople = [...new Set(allPeople)].filter(p => p);
+            peopleContainer.innerHTML = uniquePeople.length ? `<i class="fas fa-users"></i> ${uniquePeople.join(', ')}` : 'Ninguno';
+        }
+
+        function editEvent(day, index) {
+            const events = JSON.parse(localStorage.getItem(day) || '[]');
+            const event = events[index];
+            const newTime = prompt('Nueva hora:', event.time);
+            const newDesc = prompt('Nueva descripción:', event.desc);
+            const newPeople = prompt('Nuevas personas (separadas por comas):', event.people);
+            if (newTime && newDesc) {
+                events[index] = { time: newTime, desc: newDesc, people: newPeople || '' };
+                localStorage.setItem(day, JSON.stringify(events));
+                loadEvents(day);
+            }
+        }
+
+        function removeEvent(day, index) {
+            const events = JSON.parse(localStorage.getItem(day) || '[]');
+            events.splice(index, 1);
+            localStorage.setItem(day, JSON.stringify(events));
+            loadEvents(day);
+        }
+
+        function clearAll() {
+            if (confirm('¿Eliminar todos los eventos?')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
